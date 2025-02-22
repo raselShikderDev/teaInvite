@@ -1,4 +1,14 @@
 import Link from "next/link"
+import { Metadata } from "next"
+
+
+
+export async function generateMetadata({params}:{params:{productId:string}}):Promise<Metadata>{
+  const {productId} =  params
+  return{
+    title:productId
+  }
+}
 
 const AllReviews = ({params}:{params:{productId:string}}) => {
   const {productId} = params
