@@ -18,7 +18,7 @@ export default function Home() {
 
   return (
     <div className="grid grid-rows-[20px_20px_20px] justify-center items-center bg-purple-200 justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 ">
-      <h1 className={`text-3xl ${isNotShe && "hidden"}`}>Is Your Name Hur Pori?</h1>
+      <h1 className={`text-3xl mt-20 mb-10  ${isNotShe && "hidden"}`}>Are you Hur Pori?</h1>
       <button
         disabled={isNotShe}
         className={`bg-pink-600 px-6 py-1.5 rounded shadow-xl text-teal-50 font-semibold hover:scale-105 active:bg-pink-600 ${isNotShe && "hidden"}`}

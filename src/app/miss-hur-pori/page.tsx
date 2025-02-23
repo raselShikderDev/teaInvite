@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -7,13 +8,13 @@ import img1 from "@/app/miss-hur-pori/peach-cat-animated.gif";
 import img2 from "@/app/miss-hur-pori/dancing.gif";
 import img3 from "@/app/miss-hur-pori/thanks.gif";
 import teaReasons from "@/data/noReason.json";
-
+const text = "Hur Pori, Would you like to have tea with me? ☕"
 export default function TeaInvite() {
   const [accepted, setAccepted] = useState(false);
   const [noBtnClickCount, setNoBtnClickCount] = useState(0);
   const [isNoBtnClicked, setIsNoBtnClicked] = useState(false);
+  const [defaultText, setDefaultText] = useState(text)
   const [image, setImage] = useState(img1);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [imageAccept, setImageAccept] = useState(img3);
   const [isHovering, setIsHovering] = useState(false);
   const [index, setIndex] = useState(0);
@@ -50,6 +51,7 @@ export default function TeaInvite() {
     if (!isHovering) {
       const timeout = setTimeout(() => {
         setImage(img1);
+        setIsNoBtnClicked(false)
       }, 2500);
       return () => clearTimeout(timeout);
     }
@@ -185,12 +187,9 @@ export default function TeaInvite() {
               {teaReasons.reasons[index]}
             </h1>
           ) : (
-            <h1 className="text-2xl font-bold mb-4 pb-10">
-              Hur Pori, Would you like to have tea with me?{" "}
-              <span className="text-3xl">☕</span>
-            </h1>
+            <h1 className="text-2xl font-bold mb-4 pb-10">{defaultText}</h1>
           )}
-          <div className="flex justify-center items-center space-x-4 relative w-full">
+          <div className="flex px-28 sm:px-0 justify-between sm:justify-center items-center space-x-4 relative w-full">
             {/* Yes Button */}
             <motion.button
               className="px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 transition"
