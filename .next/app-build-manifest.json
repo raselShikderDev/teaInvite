@@ -1,20 +1,55 @@
 {
   "pages": {
+    "/api/send-mail/route": [
+      "static/chunks/webpack-de63a27a032969f5.js",
+      "static/chunks/4bd1b696-49dfdb1645950f8a.js",
+      "static/chunks/517-4ded1cf05032f257.js",
+      "static/chunks/main-app-953c92c2689cb5cb.js",
+      "static/chunks/app/api/send-mail/route-e6718d981d9bf806.js"
+    ],
+    "/not-found": [
+      "static/chunks/webpack-de63a27a032969f5.js",
+      "static/chunks/4bd1b696-49dfdb1645950f8a.js",
+      "static/chunks/517-4ded1cf05032f257.js",
+      "static/chunks/main-app-953c92c2689cb5cb.js",
+      "static/chunks/app/not-found-c9e9ce6eb97a26d5.js"
+    ],
+    "/_not-found/page": [
+      "static/chunks/webpack-de63a27a032969f5.js",
+      "static/chunks/4bd1b696-49dfdb1645950f8a.js",
+      "static/chunks/517-4ded1cf05032f257.js",
+      "static/chunks/main-app-953c92c2689cb5cb.js",
+      "static/chunks/app/_not-found/page-f2a2b700cc052e12.js"
+    ],
     "/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/layout.css",
-      "static/chunks/app/layout.js"
+      "static/chunks/webpack-de63a27a032969f5.js",
+      "static/chunks/4bd1b696-49dfdb1645950f8a.js",
+      "static/chunks/517-4ded1cf05032f257.js",
+      "static/chunks/main-app-953c92c2689cb5cb.js",
+      "static/css/536d6d2886b851bf.css",
+      "static/chunks/app/layout-4ff77d325f86ca21.js"
     ],
-    "/propose4/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/propose4/page.js"
+    "/error": [
+      "static/chunks/webpack-de63a27a032969f5.js",
+      "static/chunks/4bd1b696-49dfdb1645950f8a.js",
+      "static/chunks/517-4ded1cf05032f257.js",
+      "static/chunks/main-app-953c92c2689cb5cb.js",
+      "static/chunks/app/error-aec8c351819c6db5.js"
     ],
-    "/propose5/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/propose5/page.js"
+    "/page": [
+      "static/chunks/webpack-de63a27a032969f5.js",
+      "static/chunks/4bd1b696-49dfdb1645950f8a.js",
+      "static/chunks/517-4ded1cf05032f257.js",
+      "static/chunks/main-app-953c92c2689cb5cb.js",
+      "static/chunks/app/page-da3d263d40eae7bd.js"
+    ],
+    "/miss-hur-pori/page": [
+      "static/chunks/webpack-de63a27a032969f5.js",
+      "static/chunks/4bd1b696-49dfdb1645950f8a.js",
+      "static/chunks/517-4ded1cf05032f257.js",
+      "static/chunks/main-app-953c92c2689cb5cb.js",
+      "static/chunks/612-b15c2e50e61ab114.js",
+      "static/chunks/app/miss-hur-pori/page-928f76423453ba69.js"
     ]
   }
 }

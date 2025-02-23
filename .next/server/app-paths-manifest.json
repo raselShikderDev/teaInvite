@@ -1,4 +1,6 @@
 {
-  "/propose4/page": "app/propose4/page.js",
-  "/propose5/page": "app/propose5/page.js"
+  "/api/send-mail/route": "app/api/send-mail/route.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/page": "app/page.js",
+  "/miss-hur-pori/page": "app/miss-hur-pori/page.js"
 }
