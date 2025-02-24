@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
 export async function POST(req: NextRequest) {
+  console.log("Sending email...")
   try {
     const { response, userAgent, deviceInfo, screenSize, ip, time } = await req.json();
 
@@ -26,7 +27,8 @@ export async function POST(req: NextRequest) {
     };
 
     await transporter.sendMail(mailOptions);
-
+    console.log("Email sent");
+    
     return NextResponse.json({ success: true, message: "Email sent successfully!" });
   } catch (error) {
     console.error("Error sending email:", error);

@@ -52,6 +52,7 @@ export default function TeaInvite() {
       const timeout = setTimeout(() => {
         setImage(img1);
         setIsNoBtnClicked(false)
+        setDefaultText("So, Hur Pori, are you tired? What do you say? ☕")
       }, 2500);
       return () => clearTimeout(timeout);
     }
@@ -128,11 +129,31 @@ export default function TeaInvite() {
     
   };
 
+  // const handleNoBtn = () => {
+  //   setNoBtnClickCount((prev) => prev + 1);
+  //   if (noBtnClickCount === 100) {
+  //     sendNotification("No");
+  //   }
+  //   setIsNoBtnClicked(true);
+  //   setIndex((prevIndex) => (prevIndex + 1) % teaReasons.reasons.length);
+  // };
+
   const handleNoBtn = () => {
-    setNoBtnClickCount((prev) => prev + 1);
-    if (noBtnClickCount === 100) {
-      sendNotification("No");
-    }
+    setNoBtnClickCount((prev) => {
+      const newCount = prev + 1;
+      const isMobile = window.innerWidth <= 480; // Check if the device is mobile
+  
+      if (!isMobile) {
+        // If it's a PC/Laptop (where hover works), send email immediately
+        sendNotification("No");
+      } else if (newCount === 50) {
+        // If it's a mobile and user clicked 100 times, send email
+        sendNotification("No");
+      }
+  
+      return newCount; // Ensure the count updates properly
+    });
+  
     setIsNoBtnClicked(true);
     setIndex((prevIndex) => (prevIndex + 1) % teaReasons.reasons.length);
   };
