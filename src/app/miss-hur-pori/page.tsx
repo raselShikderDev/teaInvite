@@ -13,7 +13,7 @@ export default function TeaInvite() {
   const [accepted, setAccepted] = useState(false);
   const [noBtnClickCount, setNoBtnClickCount] = useState(0);
   const [isNoBtnClicked, setIsNoBtnClicked] = useState(false);
-  const [defaultText, setDefaultText] = useState(text)
+  const [defaultText] = useState(text)
   const [image, setImage] = useState(img1);
   const [imageAccept, setImageAccept] = useState(img3);
   const [isHovering, setIsHovering] = useState(false);
@@ -52,7 +52,6 @@ export default function TeaInvite() {
       const timeout = setTimeout(() => {
         setImage(img1);
         setIsNoBtnClicked(false)
-        setDefaultText("So, Hur Pori, are you tired? What do you say? ☕")
       }, 2500);
       return () => clearTimeout(timeout);
     }
@@ -144,19 +143,18 @@ export default function TeaInvite() {
       const isMobile = window.innerWidth <= 480; // Check if the device is mobile
   
       if (!isMobile) {
-        // If it's a PC/Laptop (where hover works), send email immediately
-        sendNotification("No");
+        sendNotification("No"); // PC/Laptop: Send email immediately
       } else if (newCount === 50) {
-        // If it's a mobile and user clicked 100 times, send email
-        sendNotification("No");
-      }
-  
-      return newCount; // Ensure the count updates properly
+        sendNotification("No"); // Mobile: Send email after 100 clicks
+      } 
+
+      return newCount;
     });
   
     setIsNoBtnClicked(true);
     setIndex((prevIndex) => (prevIndex + 1) % teaReasons.reasons.length);
   };
+  
 
   return (
     <div className="relative flex flex-col items-center justify-center h-screen w-screen bg-pink-200 overflow-hidden font-sans">
