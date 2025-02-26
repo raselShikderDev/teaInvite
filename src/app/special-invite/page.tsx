@@ -103,34 +103,32 @@ export default function TeaInvite() {
     let newTop, newLeft;
     const minMove = 20; // Ensures at least 20px movement in any direction
     const maxMove = 50; // Maximum move to prevent going out of bounds
-  
+
     do {
       const moveY = Math.random() * (maxMove - minMove) + minMove; // Random vertical move
       const moveX = Math.random() * (maxMove - minMove) + minMove; // Random horizontal move
-  
+
       // Randomly decide direction: Up/Down & Left/Right
       newTop = noPosition.top + (Math.random() > 0.5 ? moveY : -moveY);
       newLeft = noPosition.left + (Math.random() > 0.5 ? moveX : -moveX);
-  
+
       // Ensure the button stays within 15% to 85% of the screen
       newTop = Math.min(85, Math.max(15, newTop));
       newLeft = Math.min(85, Math.max(15, newLeft));
-  
     } while (
       Math.abs(newTop - noPosition.top) < minMove ||
       Math.abs(newLeft - noPosition.left) < minMove
     );
-  
+
     setNoPosition({ top: newTop, left: newLeft });
-  
+
     if (noBtnClickCount === 100) {
       sendNotification("No");
     }
-    
+
     setIsNoBtnClicked(true);
     setIndex((prevIndex) => (prevIndex + 1) % teaReasons.reasons.length);
   };
-  
 
   const sendNotification = async (response: string) => {
     const userAgent = navigator.userAgent;
@@ -344,9 +342,22 @@ export default function TeaInvite() {
           </div>
         </div>
       ) : (
-        <h2 className="text-2xl font-bold text-green-600 pt-6 text-center">
-          Yay! Can’t wait to have tea with you! 😊
-        </h2>
+        <>
+          <h2 className="text-2xl mb-4 font-bold text-green-500 pt-6 text-center">
+            Yay! Can’t wait to have tea with you! 😊
+          </h2>
+          <button
+            onClick={() =>
+              window.open(
+                "https://mail.google.com/mail/?view=cm&fs=1&to=rasel.sikder777.rk@gmail.com&su=Thinking of You &body=Meet me right now! ",
+                "_blank"
+              )
+            }
+            className="px-6 py-3 bg-pink-500 text-white font-bold rounded-full shadow-lg hover:bg-pink-700 transition transform hover:scale-105"
+          >
+            Miss Me? Tell Me! 😉
+          </button>
+        </>
       )}
     </div>
   );
