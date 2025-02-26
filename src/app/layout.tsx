@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Dear Hur Pori",
+  title: "Hur Pori 🎀🌸",
   description: "Just be my world once",
 };
 

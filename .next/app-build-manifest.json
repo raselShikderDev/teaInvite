@@ -26,7 +26,7 @@
       "static/chunks/4bd1b696-49dfdb1645950f8a.js",
       "static/chunks/517-4ded1cf05032f257.js",
       "static/chunks/main-app-953c92c2689cb5cb.js",
-      "static/css/31f494ef93bc363d.css",
+      "static/css/cf6377f55abfadbd.css",
       "static/chunks/app/layout-4ff77d325f86ca21.js"
     ],
     "/error": [
@@ -36,20 +36,22 @@
       "static/chunks/main-app-953c92c2689cb5cb.js",
       "static/chunks/app/error-aec8c351819c6db5.js"
     ],
-    "/miss-hur-pori/page": [
+    "/special-invite/page": [
       "static/chunks/webpack-de63a27a032969f5.js",
       "static/chunks/4bd1b696-49dfdb1645950f8a.js",
       "static/chunks/517-4ded1cf05032f257.js",
       "static/chunks/main-app-953c92c2689cb5cb.js",
-      "static/chunks/612-b15c2e50e61ab114.js",
-      "static/chunks/app/miss-hur-pori/page-708f4a245e0526b0.js"
+      "static/chunks/738-0f94f3422c427f1a.js",
+      "static/chunks/888-7b35fbd382a859ee.js",
+      "static/chunks/app/special-invite/page-dc3900b106e3b86c.js"
     ],
     "/page": [
       "static/chunks/webpack-de63a27a032969f5.js",
       "static/chunks/4bd1b696-49dfdb1645950f8a.js",
       "static/chunks/517-4ded1cf05032f257.js",
       "static/chunks/main-app-953c92c2689cb5cb.js",
-      "static/chunks/app/page-533c82dc0c2f4d4e.js"
+      "static/chunks/738-0f94f3422c427f1a.js",
+      "static/chunks/app/page-0c26692aca2e6b9e.js"
     ]
   }
 }
