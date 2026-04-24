@@ -37,7 +37,7 @@ export default function Home() {
       </button>
       <button
         disabled={isNotShe}
-        className={`bg-green-400 px-6 py-1.5 rounded shadow-xl text-teal-50 font-semibold hover:scale-105 active:bg-green-600 ${
+        className={`bg-green-400 px-6 sm:hidden lg:block py-1.5 rounded shadow-xl text-teal-50 font-semibold hover:scale-105 active:bg-green-600 ${
           isNotShe && "hidden"
         }`}
         onClick={() => setIsNotShe(true)}
