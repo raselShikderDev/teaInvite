@@ -1,5 +1,10 @@
+<<<<<<< HEAD:.next/types/app/api/contact/route.ts
 // File: E:\programme\teainvite\src\app\api\contact\route.ts
 import * as entry from '../../../../../src/app/api/contact/route.js'
+=======
+// File: E:\programme\teainvite\src\app\api\send-mail\route.tsx
+import * as entry from '../../../../../src/app/api/send-mail/route.js'
+>>>>>>> 5aff2c7 (clean commit):.next/types/app/api/send-mail/route.ts
 import type { NextRequest } from 'next/server.js'
 
 type TEntry = typeof import('../../../../../src/app/api/contact/route.js')

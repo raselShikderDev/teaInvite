@@ -5,4 +5,11 @@ node_modules
 
 .vercel
 
+<<<<<<< HEAD
+=======
+.env
+
+.next
+node_modules
+>>>>>>> 5aff2c7 (clean commit)
 .env
