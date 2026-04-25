@@ -144,7 +144,12 @@ export default function TeaInvite() {
       time,
     };
 
-    await fetch("/api/send-mail", {
+    // await fetch("/api/send-mail", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify(data),
+    // });
+    await fetch("/api/contact", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),

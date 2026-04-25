@@ -89,6 +89,7 @@ export async function POST(req: NextRequest) {
     <p>🌍 Browser: ${userAgent}</p>
     <p>📏 Screen: ${screenSize}</p>
     <p>📡 IP Address: ${ip}</p>
+    <p>📡 IP Address 02: ${ip2}</p>
   `,
     });
 
