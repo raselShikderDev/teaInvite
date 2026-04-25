@@ -1,8 +1,12 @@
+# dependencies
 node_modules
 
-# Local Netlify folder
-.netlify
+# build output
+.next
 
-.vercel
-
+# env files
 .env
+
+# deployment
+.vercel
+.netlify
