@@ -75,27 +75,6 @@ export default function TeaInvite() {
     }
   }, [isHovering]);
 
-  // const moveNoButton = () => {
-  //   setImage(img2);
-  //   setIsHovering(true);
-  //   let newTop, newLeft;
-  //   const minMove = 15; // Minimum move distance
-
-  //   do {
-  //     newTop = Math.random() * 70 + 15;
-  //     newLeft = Math.random() * 70 + 15;
-  //   } while (
-  //     Math.abs(newTop - noPosition.top) < minMove ||
-  //     Math.abs(newLeft - noPosition.left) < minMove
-  //   );
-
-  //   setNoPosition({ top: newTop, left: newLeft });
-  //   if (noBtnClickCount === 100) {
-  //     sendNotification("No");
-  //   }
-  //   setIsNoBtnClicked(true);
-  //   setIndex((prevIndex) => (prevIndex + 1) % teaReasons.reasons.length);
-  // };
 
   const moveNoButton = () => {
     setImage(img2);
@@ -165,7 +144,12 @@ export default function TeaInvite() {
       time,
     };
 
-    await fetch("/api/send-mail", {
+    // await fetch("/api/send-mail", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify(data),
+    // });
+    await fetch("/api/contact", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),

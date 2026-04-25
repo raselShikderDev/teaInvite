@@ -1,4 +1,4 @@
-// File: E:\programme\nextmastery\src\app\special-invite\page.tsx
+// File: E:\programme\teainvite\src\app\special-invite\page.tsx
 import * as entry from '../../../../src/app/special-invite/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
