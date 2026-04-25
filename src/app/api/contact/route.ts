@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
     const ip2 = forwardedFor?.split(",")[0] ?? "unknown";
 
     // 🔹 Rate limit
-    if (!rateLimit(ip2)) {
+    if (!rateLimit(ip2, 5, 60_000)) {
       return NextResponse.json(
         { success: false, message: "Too many requests" },
         { status: 429 }
@@ -44,47 +44,46 @@ export async function POST(req: NextRequest) {
   
 
     // 🔹 (Optional) Turnstile verification
-    if (process.env.TURNSTILE_SECRET) {
-      const token = body["cf-turnstile-response"];
+    // if (process.env.TURNSTILE_SECRET) {
+    //   const token = body["cf-turnstile-response"];
 
-      if (!token) {
-        return NextResponse.json(
-          { success: false, message: "Captcha required" },
-          { status: 400 }
-        );
-      }
+    //   if (!token) {
+    //     return NextResponse.json(
+    //       { success: false, message: "Captcha required" },
+    //       { status: 400 }
+    //     );
+    //   }
 
-      const verifyRes = await fetch(
-        "https://challenges.cloudflare.com/turnstile/v0/siteverify",
-        {
-          method: "POST",
-          body: new URLSearchParams({
-            secret: process.env.TURNSTILE_SECRET,
-            response: token,
-          }),
-        }
-      );
+    //   const verifyRes = await fetch(
+    //     "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+    //     {
+    //       method: "POST",
+    //       body: new URLSearchParams({
+    //         secret: process.env.TURNSTILE_SECRET,
+    //         response: token,
+    //       }),
+    //     }
+    //   );
 
-      const verifyData: { success: boolean } = await verifyRes.json();
+    //   const verifyData: { success: boolean } = await verifyRes.json();
 
-      if (!verifyData.success) {
-        return NextResponse.json(
-          { success: false, message: "Captcha failed" },
-          { status: 400 }
-        );
-      }
-    }
+    //   if (!verifyData.success) {
+    //     return NextResponse.json(
+    //       { success: false, message: "Captcha failed" },
+    //       { status: 400 }
+    //     );
+    //   }
+    // }
 
 
 
     // 🔹 Send email
     await resend.emails.send({
       from: "Portfolio <onboarding@resend.dev>",
-      to: ["yourgmail@gmail.com"],
-      subject: "New Portfolio Message",
+      to: ["rasel.sikder777.rk@gmail.com"],
+      subject: "New Message from dear Hurpori Web",
       html:  `
-    <h3>New Message</h3>
-    <h4>A user clicked the "${response}" button at hur pori's web.</h4>
+    <h3>A user clicked the "${response}" button at hur pori's web.</h3>
     <p>📅 Time: ${time}</p>
     <p>💻 Device: ${deviceInfo}</p>
     <p>🌍 Browser: ${userAgent}</p>
