@@ -1,15 +1,12 @@
+# dependencies
 node_modules
 
-# Local Netlify folder
-.netlify
-
-.vercel
-
-<<<<<<< HEAD
-=======
-.env
-
+# build output
 .next
-node_modules
->>>>>>> 5aff2c7 (clean commit)
+
+# env files
 .env
+
+# deployment
+.vercel
+.netlify
