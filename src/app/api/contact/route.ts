@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { rateLimit } from "@/app/lib/rateLimit";
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
@@ -94,10 +95,12 @@ export async function POST(req: NextRequest) {
     });
 
    
+     console.log(body);
+     console.log({ip2});
+     
      
 
     return NextResponse.json({ success: true });
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     return NextResponse.json(
       { success: false, message: "Server error" },
