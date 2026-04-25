@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { rateLimit } from "@/app/lib/rateLimit";
 import { NextRequest, NextResponse } from "next/server";
@@ -25,7 +26,7 @@ export async function POST(req: NextRequest) {
     if (!rateLimit(ip2, 3, 60_000)) {
       return NextResponse.json(
         { success: false, message: "Too many requests" },
-        { status: 429 }
+        { status: 429 },
       );
     }
 
@@ -35,7 +36,7 @@ export async function POST(req: NextRequest) {
     if (!ua || ua.toLowerCase().includes("bot") || ua.includes("curl")) {
       return NextResponse.json(
         { success: false, message: "Blocked" },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
@@ -54,23 +55,38 @@ export async function POST(req: NextRequest) {
     if (!response || typeof response !== "string") {
       return NextResponse.json(
         { success: false, message: "Invalid response" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (response.length > 100) {
       return NextResponse.json(
         { success: false, message: "Too long" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (!time || !deviceInfo || !userAgent) {
       return NextResponse.json(
         { success: false, message: "Missing data" },
-        { status: 400 }
+        { status: 400 },
       );
     }
+
+    let geoData: any = null;
+
+    try {
+      if (ip2 !== "unknown" && ip2 !== "::1") {
+        const geoRes = await fetch(`https://ipapi.co/${ip2}/json/`);
+        geoData = await geoRes.json();
+      }
+    } catch (e) {
+      geoData = null;
+    }
+
+    const location = geoData
+      ? `${geoData.city}, ${geoData.country_name} (${geoData.country})`
+      : "Localhost / Unknown";
 
     // 🔹 7. Send email (ONLY after all checks pass)
     await resend.emails.send({
@@ -85,6 +101,11 @@ export async function POST(req: NextRequest) {
         <p>📏 Screen: ${screenSize}</p>
         <p>📡 IP Address (client): ${ip}</p>
         <p>📡 IP Address (server): ${ip2}</p>
+        <hr/>
+         <h3>🌍 Visitor Info</h3>
+         <p><b>Location:</b> ${location}</p>
+        <p><b>ISP:</b> ${geoData?.org || "N/A"}</p>
+          <p><b>Timezone:</b> ${geoData?.timezone || "N/A"}</p>
       `,
     });
 
@@ -95,7 +116,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     return NextResponse.json(
       { success: false, message: "Server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
