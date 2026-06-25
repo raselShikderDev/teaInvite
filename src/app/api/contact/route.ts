@@ -21,7 +21,8 @@ export async function POST(req: NextRequest) {
     // 🔹 1. Get IP
     const forwardedFor = req.headers.get("x-forwarded-for");
     const ip2 = forwardedFor?.split(",")[0] ?? "unknown";
-
+    const x_forwarded_for_ip =
+      req.headers.get("x-forwarded-for") ?? req.headers.get("x-real-ip");
     // 🔹 2. Rate limit (FIRST line of defense)
     if (!rateLimit(ip2, 3, 60_000)) {
       return NextResponse.json(
@@ -29,10 +30,47 @@ export async function POST(req: NextRequest) {
         { status: 429 },
       );
     }
+    console.log({
+      forwardedFor: req.headers.get("x-forwarded-for"),
+      realIp: req.headers.get("x-real-ip"),
+      userAgent: req.headers.get("user-agent"),
+      referer: req.headers.get("referer"),
+      origin: req.headers.get("origin"),
+      host: req.headers.get("host"),
+      secFetchSite: req.headers.get("sec-fetch-site"),
+      secFetchMode: req.headers.get("sec-fetch-mode"),
+    });
+
+    const requestInfo = {
+      forwardedFor: req.headers.get("x-forwarded-for"),
+      realIp: req.headers.get("x-real-ip"),
+      userAgentHeader: req.headers.get("user-agent"),
+      referer: req.headers.get("referer"),
+      origin: req.headers.get("origin"),
+      host: req.headers.get("host"),
+      secFetchSite: req.headers.get("sec-fetch-site"),
+      secFetchMode: req.headers.get("sec-fetch-mode"),
+      secFetchDest: req.headers.get("sec-fetch-dest"),
+      secFetchUser: req.headers.get("sec-fetch-user"),
+      acceptLanguage: req.headers.get("accept-language"),
+      acceptEncoding: req.headers.get("accept-encoding"),
+      xForwardedProto: req.headers.get("x-forwarded-proto"),
+      xForwardedHost: req.headers.get("x-forwarded-host"),
+    };
 
     // 🔹 3. Block obvious bots via headers (BEFORE body parsing)
     const ua = req.headers.get("user-agent") || "";
 
+    const blocked =
+      ua.includes("HeadlessChrome") ||
+      ua.includes("Puppeteer") ||
+      ua.includes("Playwright") ||
+      ua.toLowerCase().includes("bot") ||
+      ua.includes("curl");
+
+    if (blocked) {
+      return NextResponse.json({ success: false }, { status: 403 });
+    }
     if (!ua || ua.toLowerCase().includes("bot") || ua.includes("curl")) {
       return NextResponse.json(
         { success: false, message: "Blocked" },
@@ -86,7 +124,7 @@ export async function POST(req: NextRequest) {
 
     const location = geoData
       ? `${geoData.city}, ${geoData.country_name} (${geoData.country})`
-      : "Localhost / Unknown";
+      : "Unknown";
 
     // 🔹 7. Send email (ONLY after all checks pass)
     await resend.emails.send({
@@ -106,6 +144,24 @@ export async function POST(req: NextRequest) {
          <p><b>Location:</b> ${location}</p>
         <p><b>ISP:</b> ${geoData?.org || "N/A"}</p>
           <p><b>Timezone:</b> ${geoData?.timezone || "N/A"}</p>
+           <hr/>
+
+    <h3>🔍 Request Headers</h3>
+
+    <p><b>x-forwarded-for:</b> ${requestInfo.forwardedFor ?? "N/A"}</p>
+    <p><b>x-real-ip:</b> ${requestInfo.realIp ?? "N/A"}</p>
+    <p><b>User-Agent:</b> ${requestInfo.userAgentHeader ?? "N/A"}</p>
+    <p><b>Referer:</b> ${requestInfo.referer ?? "N/A"}</p>
+    <p><b>Origin:</b> ${requestInfo.origin ?? "N/A"}</p>
+    <p><b>Host:</b> ${requestInfo.host ?? "N/A"}</p>
+    <p><b>Sec-Fetch-Site:</b> ${requestInfo.secFetchSite ?? "N/A"}</p>
+    <p><b>Sec-Fetch-Mode:</b> ${requestInfo.secFetchMode ?? "N/A"}</p>
+    <p><b>Sec-Fetch-Dest:</b> ${requestInfo.secFetchDest ?? "N/A"}</p>
+    <p><b>Sec-Fetch-User:</b> ${requestInfo.secFetchUser ?? "N/A"}</p>
+    <p><b>Accept-Language:</b> ${requestInfo.acceptLanguage ?? "N/A"}</p>
+    <p><b>Accept-Encoding:</b> ${requestInfo.acceptEncoding ?? "N/A"}</p>
+    <p><b>X-Forwarded-Proto:</b> ${requestInfo.xForwardedProto ?? "N/A"}</p>
+    <p><b>X-Forwarded-Host:</b> ${requestInfo.xForwardedHost ?? "N/A"}</p>
       `,
     });
 
