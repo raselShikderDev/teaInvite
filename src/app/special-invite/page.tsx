@@ -11,6 +11,7 @@ import img3 from "@/app/special-invite/thanks.gif";
 import turnGif from "@/app/special-invite/turning.gif";
 import teaReasons from "@/data/noReason.json";
 import { useRouter } from "next/navigation";
+import { getBrowserInfo } from "../lib/getBrowserInfo";
 const text = "Hur Pori, Would you like to have tea with me? ☕";
 export default function TeaInvite() {
   const [accepted, setAccepted] = useState(false);
@@ -60,7 +61,7 @@ export default function TeaInvite() {
         duration: Math.random() * 6 + 4, // Random float time (3s-8s)
         delay: Math.random() * 4, // Different start times
         moveX: Math.random() * 20 - 10, // Slight left-right sway
-      }))
+      })),
     );
   }, []);
 
@@ -74,7 +75,6 @@ export default function TeaInvite() {
       return () => clearTimeout(timeout);
     }
   }, [isHovering]);
-
 
   const moveNoButton = () => {
     setImage(img2);
@@ -117,6 +117,7 @@ export default function TeaInvite() {
     // Get IP Address
     const ipRes = await fetch("https://api64.ipify.org?format=json");
     const { ip } = await ipRes.json();
+    const browserInfo = getBrowserInfo();
 
     // Get Device Info (Type Checking Fix)
     let deviceInfo = "Unknown Device";
@@ -127,7 +128,8 @@ export default function TeaInvite() {
       const brands =
         userAgentData.brands
           ?.map(
-            (b: { brand: string; version: string }) => `${b.brand} ${b.version}`
+            (b: { brand: string; version: string }) =>
+              `${b.brand} ${b.version}`,
           )
           .join(", ") || "Unknown Browser";
 
@@ -142,6 +144,7 @@ export default function TeaInvite() {
       screenSize,
       ip,
       time,
+      browserInfo,
     };
 
     // await fetch("/api/send-mail", {
@@ -334,7 +337,7 @@ export default function TeaInvite() {
             onClick={() =>
               window.open(
                 "https://mail.google.com/mail/?view=cm&fs=1&to=rasel.sikder777.rk@gmail.com&su=Thinking of You &body=Meet me right now! ",
-                "_blank"
+                "_blank",
               )
             }
             className="px-6 py-3 bg-pink-500 text-white font-bold rounded-full shadow-lg hover:bg-pink-700 transition transform hover:scale-105"

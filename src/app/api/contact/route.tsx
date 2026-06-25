@@ -11,7 +11,8 @@ type ContactBody = {
   screenSize: string;
   ip: string;
   time: string;
-  website?: string; // ✅ honeypot field
+  browserInfo: Record<string, unknown>;
+  website?: string;
 };
 
 const resend = new Resend(process.env.RESEND_API_KEY!);
@@ -21,8 +22,6 @@ export async function POST(req: NextRequest) {
     // 🔹 1. Get IP
     const forwardedFor = req.headers.get("x-forwarded-for");
     const ip2 = forwardedFor?.split(",")[0] ?? "unknown";
-    const x_forwarded_for_ip =
-      req.headers.get("x-forwarded-for") ?? req.headers.get("x-real-ip");
     // 🔹 2. Rate limit (FIRST line of defense)
     if (!rateLimit(ip2, 3, 60_000)) {
       return NextResponse.json(
@@ -30,16 +29,6 @@ export async function POST(req: NextRequest) {
         { status: 429 },
       );
     }
-    console.log({
-      forwardedFor: req.headers.get("x-forwarded-for"),
-      realIp: req.headers.get("x-real-ip"),
-      userAgent: req.headers.get("user-agent"),
-      referer: req.headers.get("referer"),
-      origin: req.headers.get("origin"),
-      host: req.headers.get("host"),
-      secFetchSite: req.headers.get("sec-fetch-site"),
-      secFetchMode: req.headers.get("sec-fetch-mode"),
-    });
 
     const requestInfo = {
       forwardedFor: req.headers.get("x-forwarded-for"),
@@ -62,6 +51,7 @@ export async function POST(req: NextRequest) {
     const ua = req.headers.get("user-agent") || "";
 
     const blocked =
+      !ua ||
       ua.includes("HeadlessChrome") ||
       ua.includes("Puppeteer") ||
       ua.includes("Playwright") ||
@@ -69,9 +59,6 @@ export async function POST(req: NextRequest) {
       ua.includes("curl");
 
     if (blocked) {
-      return NextResponse.json({ success: false }, { status: 403 });
-    }
-    if (!ua || ua.toLowerCase().includes("bot") || ua.includes("curl")) {
       return NextResponse.json(
         { success: false, message: "Blocked" },
         { status: 403 },
@@ -81,8 +68,23 @@ export async function POST(req: NextRequest) {
     // 🔹 4. Parse body
     const body = (await req.json()) as ContactBody;
 
-    const { time, ip, screenSize, deviceInfo, userAgent, response, website } =
-      body;
+    const {
+      time,
+      ip,
+      screenSize,
+      deviceInfo,
+      userAgent,
+      response,
+      browserInfo,
+      website,
+    } = body;
+
+    if (browserInfo && typeof browserInfo !== "object") {
+      return NextResponse.json(
+        { success: false, message: "Invalid browserInfo" },
+        { status: 400 },
+      );
+    }
 
     // 🔹 5. Honeypot (VERY early after parsing)
     if (website) {
@@ -126,6 +128,9 @@ export async function POST(req: NextRequest) {
       ? `${geoData.city}, ${geoData.country_name} (${geoData.country})`
       : "Unknown";
 
+    const escapeHtml = (str: string) =>
+      str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
     // 🔹 7. Send email (ONLY after all checks pass)
     await resend.emails.send({
       from: "Portfolio <onboarding@resend.dev>",
@@ -162,17 +167,46 @@ export async function POST(req: NextRequest) {
     <p><b>Accept-Encoding:</b> ${requestInfo.acceptEncoding ?? "N/A"}</p>
     <p><b>X-Forwarded-Proto:</b> ${requestInfo.xForwardedProto ?? "N/A"}</p>
     <p><b>X-Forwarded-Host:</b> ${requestInfo.xForwardedHost ?? "N/A"}</p>
+               <hr/>
+    <h2>Visitor Debug Information</h2>
+
+<pre style="
+background:#111;
+color:#00ff66;
+padding:20px;
+font-size:12px;
+white-space:pre-wrap;
+word-break:break-word;
+border-radius:10px;
+overflow:auto;
+">
+${JSON.stringify(browserInfo, null, 2)}
+</pre>
       `,
     });
 
-    console.log(body);
-    console.log({ ip2 });
+    console.dir(
+      {
+        ip2,
+        body,
+      },
+      {
+        depth: null,
+      },
+    );
 
     return NextResponse.json({ success: true });
   } catch (error) {
+    console.error(error);
+
     return NextResponse.json(
-      { success: false, message: "Server error" },
-      { status: 500 },
+      {
+        success: false,
+        message: "Server error",
+      },
+      {
+        status: 500,
+      },
     );
   }
 }
